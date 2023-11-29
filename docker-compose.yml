@@ -1,0 +1,12 @@
+services:
+  db:
+    build: ./db
+    ports:
+      - "3306:3306"
+  app:
+    build: .
+    restart: always
+    ports:
+      - "8075:8075"
+    depends_on:
+      - db

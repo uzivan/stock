@@ -1,4 +1,16 @@
-FROM ubuntu:latest
-LABEL authors="ivan"
+FROM openjdk:17
 
-ENTRYPOINT ["top", "-b"]
+#VOLUME /tmp
+#COPY target/*.jar app.jar
+#ENTRYPOINT ["java","-jar","/app.jar"]
+EXPOSE 8080
+WORKDIR /app
+
+COPY .mvn/ .mvn
+COPY mvnw pom.xml ./
+
+RUN ./mvnw dependency:go-offline
+
+COPY src ./src
+
+CMD ["./mvnw", "spring-boot:run"]
